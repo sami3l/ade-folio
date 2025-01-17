@@ -99,7 +99,7 @@ export default function Contact() {
               : "perspective(300px) rotateY(-360deg)"
           }`,
         }}
-        className={`overflow-y-hidden card mt-12 sm:mt-16 md:mt-[100px] px-6 py-4 md:py-10 lg:py-12 flex flex-col lg:items-center lg:flex-row justify-between rounded-2xl bg-gradient-to-r from-[#d9d9d91f] to-[#7373731f]`}
+        className={`overflow-y-hidden card mt-12 sm:mt-16 md:mt-[100px] px-6 py-4 md:py-10 lg:py-12 flex flex-col lg:items-center lg:flex-row justify-between rounded-2xl bg-gradient-to-r from-navy-blue to-dark-gray`}
       >
         {!formDisplay ? (
           <div
@@ -123,7 +123,7 @@ export default function Contact() {
                   onClick={() => {
                     setFormDisplay(!formDisplay);
                   }}
-                  className="sm:mt-0 text-xl sm:text-2xl md:text-[32px] w-fit underline lg:text-[40px] font-bold leading-tight hidden sm:block lg:hidden"
+                  className="sm:mt-0 text-xl sm:text-2xl md:text-[32px] w-fit underline lg:text-[40px] font-bold leading-tight hidden sm:block lg:hidden text-navy-blue"
                 >
                   CONTACT ME
                 </span>

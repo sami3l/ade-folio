@@ -31,7 +31,7 @@ export default function TimelineItem({
   return (
     <div
       ref={ref}
-      className={`flex items-start gap-4 relative duration-1000 ${
+      className={`flex items-start gap-4 relative duration-1000 bg-navy-blue${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
       }`}
     >

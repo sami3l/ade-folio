@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+
 import React, { useRef } from "react";
 import { Syne } from "next/font/google";
 
@@ -16,7 +17,7 @@ export default function Title({ children }: { children: React.ReactNode }) {
     <motion.h1
       ref={titleRef}
       style={{ opacity }}
-      className={`uppercase ${syne.className} text-4xl md:text-5xl xl:text-6xl font-bold`}
+      className={`uppercase ${syne.className} from-navy-blue to-navy-blue text-4xl md:text-5xl xl:text-6xl font-bold`}
     >
       {children}
     </motion.h1>

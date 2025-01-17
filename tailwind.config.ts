@@ -8,6 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        'navy-blue': '#0A192F',      // Deep Navy Blue
+        'electric-blue': '#00BFFF',  // Electric Blue
+        'neon-green': '#39FF14',     // Neon Green
+        'light-gray': '#F5F5F5',     // Light Gray
+        'dark-gray': '#333333',      // Dark Gray
+      },
       fontFamily: {
         kumbhSans: ["Kumbh Sans", "sans-serif"],
       },

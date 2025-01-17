@@ -13,9 +13,9 @@ export default function Footer() {
       id="footer"
       className="my-6 sm:my-8 text-sm sm:text-base lg:text-lg flex md:justify-between justify-center"
     >
-      <p>
-        <span className="text-xl sm:text-2xl">&copy;</span> {curYear} . ADEOLA
-        BADERO . ALL RIGHTS RESERVED
+      <p className="text-dark-gray">
+        <span className="text-xl sm:text-2xl text-navy-blue">&copy;</span> {curYear} . Elhadraoui
+        SAMI . ALL RIGHTS RESERVED
       </p>
       <Link
         className="md:flex hidden items-center gap-1 leading-tight"
@@ -24,8 +24,8 @@ export default function Footer() {
         data-blobity-offset-y="0"
         onClick={() => setSectionInView("home")}
       >
-        <Icon icon="mdi:arrow-top" className="text-2xl rounded-2xlt" />
-        <p className="underline leading-tight">SCROLL TO TOP</p>
+        <Icon icon="mdi:arrow-top" className="text-2xl rounded-2xlt bg-navy-blue" />
+        <p className="underline leading-tight text-dark-gray">SCROLL TO TOP</p>
       </Link>
     </section>
   );

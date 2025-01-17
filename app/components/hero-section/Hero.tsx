@@ -13,6 +13,7 @@ import {
 import "intersection-observer";
 import { useInView } from "react-intersection-observer";
 import { useView } from "@/contexts/ViewContext";
+import profile from "@/app/components/hero-section/profile.png"
 
 export default function Hero() {
   const handWaveAnimation = {
@@ -72,7 +73,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.1, ease: "easeOut" }}
         >
-          <p className="text-white/60 text-xl smm:text-2xl mb-3 smm:mb-0 lg:text-3xl col-span-6">
+          <p className="text-navy-blue text-xl smm:text-2xl mb-3 smm:mb-0 lg:text-3xl col-span-6">
             Hey, there
           </p>
           <motion.div
@@ -93,19 +94,19 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={animateIn1}
         >
-          <p className="text-white/60 inline">I&apos;m </p>
-          <span className="bg-gradient-to-br bg-clip-text text-transparent from-[#7CC0C4] via-[#548FBA] to-[#3C84C7]">
-            Adeola Badero
+          <p className="text-navy-blue inline">I&apos;m </p>
+          <span className="bg-gradient-to-br bg-clip-text text-transparent from-navy-blue via-electric-blue to-dark-gray">
+            Elhadraoui Sami
           </span>
-          <p>a Software Engineer</p>
+          <p className="text-navy-blue">a Student Software Engineer</p>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={animateIn2}
-          className="text-white/40  text-xl smm:text-2xl lg:text-3xl xl:text-4xl mt-3 smm:mt-6 "
+          className="text-dark-gray  text-xl smm:text-2xl lg:text-3xl xl:text-4xl mt-3 smm:mt-6 "
         >
-          currently focused on building user experiences that drive growth.
+          a Software Engineering Student from Morocco. Full-stack developer passionate about web technologies, Always eager to learn .
         </motion.p>
       </div>
 
@@ -119,11 +120,11 @@ export default function Hero() {
           animate={animateIn1}
         >
           <Image
-            src="/transparent-ade-min.png"
+            src={profile}
             priority
             fill
-            alt="Ade's picture"
-            className="bg-image-radial px-10 pt-20"
+            alt="sami's picture"
+            className="bg-navy-blue px-10 pt-20"
           />
         </motion.div>
       </div>

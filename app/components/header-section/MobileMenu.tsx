@@ -16,7 +16,7 @@ export default function MobileMenu({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="grid  z-10 items-center grid-cols-2 sm:hidden px-6 py-5 fixed top-12 rounded-2xl bg-gradient-to-r from-[#d9d9d91f]  max-w-[90%] w-full to-[#7373731f] mt-12 sm:mt-16 std-backdrop-blur"
+      className="grid  z-10 items-center grid-cols-2 sm:hidden px-6 py-5 fixed top-12 rounded-2xl bg-gradient-to-r  from-navy-blue to-dark-gray  max-w-[90%] w-full  mt-12 sm:mt-16 std-backdrop-blur"
     >
       <ul
         className="flex flex-col gap-4 lg:gap-12 text-white/25"
@@ -52,7 +52,7 @@ export default function MobileMenu({
         <Link
           className="p-4 flex-1 flex justify-center w-full rounded-xl h-fit text-4xl visited:bg-[#E3D3BE] bg-gradient-to-r from-[#d9d9d915] to-[#7373731f] std-backdrop-blur"
           target="_blank"
-          href="https://linkedin.com/in/adeola-badero"
+          href="https://www.linkedin.com/in/sami-elhadraoui-532971273/"
           data-blobity-radius="10"
         >
           <Icon icon="hugeicons:linkedin-01" />
@@ -62,7 +62,7 @@ export default function MobileMenu({
           <Link
             className="p-4 flex justify-center w-full rounded-xl h-fit text-2xl bg-gradient-to-r from-[#d9d9d915] to-[#7373731f] std-backdrop-blur"
             target="_blank"
-            href="https://github.com/adex-hub"
+            href="https://github.com/sami3l"
             data-blobity-radius="10"
           >
             <Icon icon="hugeicons:github" />
@@ -70,7 +70,7 @@ export default function MobileMenu({
           <Link
             className="p-4 flex justify-center w-full rounded-xl h-fit text-2xl bg-gradient-to-r from-[#d9d9d915] to-[#7373731f] std-backdrop-blur"
             target="_blank"
-            href="https://x.com/Ade_the_great"
+            href="https://x.com/samielhadraoui"
             data-blobity-radius="10"
           >
             <Icon icon="akar-icons:x-fill" />
