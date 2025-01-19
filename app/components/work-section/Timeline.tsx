@@ -30,7 +30,7 @@ export default function Timeline() {
       <Title> Work experience</Title>
 
       {/* THE THING, AFTER WHICH I WOULD DETERMINE THE HEIGHT */}
-      <div className="flex mt-6 gap-4 pl-3 bg-light-gray">
+      <div className="flex mt-6 gap-4 pl-3 bg-navy-blue">
         <div className="w-3 h-auto " />
 
         <div className="flex flex-col gap-10 text-dark-gray">

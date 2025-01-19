@@ -1,268 +1,162 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Syne } from "next/font/google";
-import { useView } from "@/contexts/ViewContext";
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { redirect } from 'next/dist/server/api-utils';
 
-// @ts-ignore
-import "intersection-observer";
-import { useInView } from "react-intersection-observer";
-import { AnimatePresence, motion } from "framer-motion";
-import AnimatedTitle from "../ui/AnimatedTitle";
-import Link from "next/link";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useForm } from "react-hook-form";
-import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
-const syne = Syne({ subsets: ["latin"] });
-
-export default function Contact() {
-  const { setSectionInView } = useView();
-  const [viewCount, setViewCount] = useState<number>(0);
-  const [formDisplay, setFormDisplay] = useState<boolean>(false);
-
-  const { ref, inView } = useInView({
-    threshold: 0.25,
-    rootMargin: "-100px 0px",
+const ContactForm: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    message: '',
   });
-
-  useEffect(() => {
-    if (inView) setSectionInView("contact");
-  }, [inView, setSectionInView]);
-
-  useEffect(() => {
-    if (inView) {
-      setViewCount((c) => c + 1);
-    }
-  }, [inView, setSectionInView]);
-
-  const { formState, register, handleSubmit, reset } = useForm();
-  const { errors } = formState;
-
-  // For email.js
+  const [formDisplay, setFormDisplay] = useState(true); // Toggle form display after submission
   const formRef = useRef<HTMLFormElement>(null);
 
-  function onSubmit(data: any) {
-    console.log(data);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const reset = () => {
+    setFormData({
+      name: '',
+      email: '',
+      message: '',
+    });
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formRef.current) return;
 
     emailjs
       .sendForm(
         `${process.env.NEXT_PUBLIC_SERVICE_ID}`,
         `${process.env.NEXT_PUBLIC_TEMPLATE_ID}`,
-        formRef.current as HTMLFormElement,
+        formRef.current,
         {
           publicKey: `${process.env.NEXT_PUBLIC_PUBLIC_KEY}`,
         }
       )
       .then(
         () => {
-          console.log("SUCCESS!");
-          toast.success("Message sent", {
-            position: "bottom-left",
+          console.log('SUCCESS!');
+          toast.success('Message sent', {
+            position: 'bottom-left',
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            theme: "dark",
+            theme: 'dark',
             className: `custom-toast font-kumbhSans`,
           });
           reset();
-          setTimeout(() => setFormDisplay(!formDisplay), 5000);
+          setTimeout(() => setFormDisplay(!formDisplay), 5000); // Toggle form display after 5 seconds
         },
         (error) => {
-          console.log("FAILED...", error.text);
-          toast.error("Message not sent, check your network", {
-            position: "bottom-left",
+          console.log('FAILED...', error.text);
+          toast.error('Message not sent, check your network', {
+            position: 'bottom-left',
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            theme: "dark",
+            theme: 'dark',
             className: `custom-toast font-kumbhSans`,
           });
         }
       );
-  }
+    
+  };
 
   return (
-    <>
-      <section
-        ref={ref}
-        id="contact"
-        style={{
-          transform: `${
-            formDisplay
-              ? "perspective(300px) rotateY(-180deg)"
-              : "perspective(300px) rotateY(-360deg)"
-          }`,
-        }}
-        className={`overflow-y-hidden card mt-12 sm:mt-16 md:mt-[100px] px-6 py-4 md:py-10 lg:py-12 flex flex-col lg:items-center lg:flex-row justify-between rounded-2xl bg-gradient-to-r from-navy-blue to-dark-gray`}
-      >
-        {!formDisplay ? (
-          <div
-            className={` ${
-              syne.className
-            } flex justify-between items-center w-full duration-1000 ${
-              formDisplay && "opacity-0"
-            }`}
-          >
-            <div className="inline w-full">
-              <AnimatedTitle
-                wordSpace={"mr-2 md:mr-[12px]"}
-                charSpace={"mr-[0.001em]"}
-                className="text-xl sm:text-2xl md:text-[32px] lg:text-[40px] font-bold"
-              >
-                GOT A PROJECT IN MIND?
-              </AnimatedTitle>
-              <Link href="#footer" data-no-blobity>
-                <span
-                  data-blobity
-                  onClick={() => {
-                    setFormDisplay(!formDisplay);
-                  }}
-                  className="sm:mt-0 text-xl sm:text-2xl md:text-[32px] w-fit underline lg:text-[40px] font-bold leading-tight hidden sm:block lg:hidden text-navy-blue"
-                >
-                  CONTACT ME
-                </span>
-              </Link>
-            </div>
-            <Link href="#footer">
-              <button
-                className={`text-base ml-auto mt-6 lg:mt-0 lg:ml-0 block sm:hidden lg:block lg:text-2xl font-semibold px-4 py-2 md:px-3 lg:py-4 rounded-xl border-2 border-white leading-none ${
-                  viewCount <= 1 && "duration-500 delay-[1500ms]"
-                } ${
-                  inView
-                    ? " opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-16"
-                }`}
-                data-blobity-radius="12"
-                onClick={() => {
-                  setFormDisplay(!formDisplay);
-                }}
-              >
-                CONTACT&nbsp;ME
-              </button>
-            </Link>
-          </div>
-        ) : (
-          <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              exit={{ opacity: 0 }}
-              style={{
-                transform: `${
-                  formDisplay
-                    ? "perspective(300px) rotateY(-180deg)"
-                    : "perspective(300px) rotateY(0deg)"
-                }`,
-              }}
-              className="w-full"
-            >
-              <div className="ml-auto float-right md:absolute right-0 -top-5 text-2xl opacity-50">
-                <Icon
-                  icon="gg:close"
-                  data-blobity
-                  onClick={() => {
-                    setFormDisplay(false);
-                    reset();
-                  }}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-6">
+      <ToastContainer />
+      {formDisplay && (
+        <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
+          <div className="p-8">
+            <h2 className="text-4xl font-bold text-green-900 mb-6">Get in Touch</h2>
+            <p className="text-green-700 mb-8">
+              Have a question or want to collaborate? Drop us a message below!
+            </p>
+            <form ref={formRef} onSubmit={onSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-green-700">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-4 py-3 border border-green-300 rounded-lg shadow-sm placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                  placeholder="John Doe"
+                  required
                 />
               </div>
-              <div className="flex items-center h-full gap-2 w-full">
-                <form
-                  ref={formRef}
-                  onSubmit={handleSubmit(onSubmit)}
-                  className={`back w-full flex flex-col gap-3 grow-[2] basis-0`}
-                >
-                  <div className="flex gap-1 flex-col">
-                    <label
-                      htmlFor="userName"
-                      className="opacity-70 text-sm lg:text-base "
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="userName"
-                      {...register("userName", {
-                        required: "I need to know your name",
-                        pattern: {
-                          value: /^[a-zA-Z][a-zA-Z0-9]{2,}/,
-                          message: "Please enter a valid name.",
-                        },
-                      })}
-                      className="bg-transparent rounded-md border border-[#737373c4] focus:border-[#9f9d9dc4] outline-none py-1 pl-2"
-                    />
-                    {errors?.userName && (
-                      <span className="text-red-400 text-xs">
-                        {errors?.userName?.message as string}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-1 flex-col">
-                    <label
-                      htmlFor="userEmail"
-                      className="opacity-70 text-sm lg:text-base "
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="userEmail"
-                      type="email"
-                      {...register("userEmail", {
-                        required: "Enter a correct email address",
-                        pattern: {
-                          value: /\S+@\S+\.\S+/,
-                          message: "Please provide a valid email address",
-                        },
-                      })}
-                      className="bg-transparent rounded-md border border-[#737373c4] focus:border-[#9f9d9dc4] outline-none py-1 pl-2"
-                    />
-                    {errors?.userEmail && (
-                      <span className="text-red-400 text-xs">
-                        {errors?.userEmail?.message as string}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-1 flex-col">
-                    <label
-                      htmlFor="userMessage"
-                      className="opacity-70 text-sm lg:text-base"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="userMessage"
-                      {...register("userMessage", {
-                        required: "I'll appreciate what you have to say.",
-                      })}
-                      rows={4}
-                      cols={50}
-                      className="bg-transparent rounded-md border border-[#737373c4] focus:border-[#9f9d9dc4] outline-none py-1 pl-2"
-                    />
-                    {errors?.userMessage && (
-                      <span className="text-red-400 text-xs">
-                        {errors?.userMessage?.message as string}
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    className={`rounded-md bg-gradient-to-r from-[#d9d9d91f] to-[#7373731f] py-3 px-5 ${syne.className} font-bold uppercase mt-4`}
-                  >
-                    Send
-                  </button>
-                </form>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-green-700">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-4 py-3 border border-green-300 rounded-lg shadow-sm placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                  placeholder="john.doe@example.com"
+                  required
+                />
               </div>
-            </motion.div>
-          </AnimatePresence>
-        )}
-      </section>
-      <ToastContainer />
-    </>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-green-700">
+                  Your Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={5}
+                  className="mt-1 block w-full px-4 py-3 border border-green-300 rounded-lg shadow-sm placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
+                  placeholder="Write your message here..."
+                  required
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all transform hover:scale-105"
+                >
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="bg-green-50 p-6 text-center">
+            <p className="text-green-700 text-sm">
+              We'll get back to you within 24 hours. 🌿
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default ContactForm;
